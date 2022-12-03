@@ -1,0 +1,29 @@
+<h1>List des utilisateurs</h1>
+
+<a class="btn btn-success mt-2" routerLink="/add-user"> Ajouter utilisateur </a>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Nom</th>
+      <th scope="col">Prénom </th>
+      <th scope="col">Email</th>
+      <th scope="col">Adresse </th>
+      <th scope="col">Date de Naissance </th>
+      <th scope="col">alias </th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let user of users">
+      <td>{{ user.firstName}}</td>
+      <td>{{ user.lastName}}</td>
+      <td>{{ user.email}}</td>
+      <td> <p>{{ user.address.city }} </p></td>
+      <td>{{ user.dateBirth}}</td>
+      <td> <strong *ngFor="let alias of user.aliases"> {{ alias}} ,</strong></td>
+
+
+    </tr>
+
+  </tbody>
+</table>

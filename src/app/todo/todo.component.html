@@ -1,0 +1,40 @@
+<h1>List des tâches à réaliser :</h1>
+<!-- {{ today | date | uppercase}} -->
+<button type="button" class="btn btn-primary mt-3 mb-3 ml-3" (click)="exportDataToPDF()">Export to PDF</button>
+<button type="button" class="btn btn-primary mt-3 mb-3 ml-3" (click)="exportToPDFAutoTable()">Export to PDF using Autotable</button>
+<ul class="list-group">
+  <li class="list-group-item" *ngFor="let todo of todos, let i = index">
+    <div [ngClass]="{encours:todo.todoStatus , terminee : !todo.todoStatus}">
+
+      <a [href]="todo.image">
+      <img [src]="todo.image" style=" width: 150px; height: 120px;"/>
+    </a>
+    {{ todo.todoName  }}
+
+    <button class="btn btn-primary" [disabled]="todo.todoStatus"    (click)="onchangeStatus(i)"  > En cours</button>
+    &nbsp;
+    <button class="btn btn-success" [disabled]="!todo.todoStatus"  (click)="onchangeStatus(i)" > Terminée</button>
+
+    <!-- Action de modification  -->
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="onchangeIsModif(i)" *ngIf="!todo.isModif">
+    <img src="/assets/img/pencil-square.svg" alt="Bootstrap" width="20" height="20">
+    </button>
+    &nbsp;
+    <button type="button" class="btn btn-primary" (click)="onchangeIsModif(i)" *ngIf="todo.isModif">
+    <img src="/assets/img/check2-square.svg" alt="Bootstrap" width="20" height="20">
+    </button>
+ <!-- Action de détail  -->
+    <button type="button" class="btn btn-primary" (click)="onView(i)" >
+      <img src="/assets/img/chat-text.svg" alt="Bootstrap" width="20" height="20">
+      </button>
+
+
+
+
+    <input class="form-control" *ngIf="todo.isModif" [(ngModel)] = "todo.todoName" />
+  </div>
+
+  </li>
+
+</ul>

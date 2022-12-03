@@ -1,0 +1,12 @@
+<h1>Détail de la tâche : {{ todo.todoName}}</h1>
+<p  *ngIf="!todo">{{erreur }}</p>
+
+<div class="card" style="width: 18rem;">
+  <img [src]="todo.image" class="card-img-top" alt="">
+  <div class="card-body">
+    <h5 class="card-title">{{todo.todoName}}</h5>
+    <p class="card-text">{{todo.todoDesc}}</p>
+  </div>
+
+</div>
+<a type="button" class="btn btn-primary" routerLink="/todos">Retour</a>
