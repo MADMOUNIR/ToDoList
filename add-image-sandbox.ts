@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { CellConfig, jsPDF } from "jspdf";
 import "jspdf-autotable";
+import * as ApexCharts from "apexcharts";
 
 @Component({
   selector: "app-root",
@@ -81,15 +82,54 @@ export class AppComponent {
       tableLineColor: [124, 95, 240],
       tableLineWidth: 0.1
     });
-    doc.table(
-      20,
-      120,
-      this._getDataForPdfTable(),
-      this._createHeadersForPdfTable(["uid", "first", "last", "handle"]),
-      { autoSize: false }
-    );
+    // doc.table(
+    //   20,
+    //   120,
+    //   this._getDataForPdfTable(),
+    //   this._createHeadersForPdfTable(["uid", "first", "last", "handle"]),
+    //   { autoSize: false }
+    // );
 
-    doc.save(fileName);
+    //----chart
+    var options = {
+      chart: {
+        type: "line"
+      },
+      series: [
+        {
+          name: "sales",
+          data: [30, 40, 35, 50, 49, 60, 70, 91, 125]
+        }
+      ],
+      xaxis: {
+        categories: [1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999]
+      }
+    };
+
+    var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+    chart.render();
+    let ImageUri;
+    // chart.render();
+    chart.render().then(() => {
+      window.setTimeout(function () {
+        chart.dataURI().then((uri) => {
+          const chartUri = { uri };
+          console.log(chartUri);
+          ImageUri = chartUri.uri.imgURI;
+          console.log(ImageUri);
+
+          doc.addImage(ImageUri, "png", 5, 120, 0, 0);
+          doc.save(fileName);
+        });
+      }, 2000);
+    });
+
+    // doc.addImage(ImageUri, "png", 5, 120, 0, 0);
+
+    // var dataURL = chart.dataURI().then(({ imgURI, blob }) => {
+    //   (doc as any).addImage(imgURI, "PNG",  0, 0);
+    // });
   }
 
   private _createHeadersForPdfTable(keys: string[]) {
